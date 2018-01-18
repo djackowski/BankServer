@@ -95,13 +95,13 @@ public class ExternalTransferResource {
         //TODO: throw exception
         if (account == null) throw new Exception();
 
-        int amount = transfer.getAmount();
+        Long amount = transfer.getAmount();
 
         UpdateOperations<Account> newBalance = DataStoreManager.getDatastore().createUpdateOperations(Account.class).inc("balance", amount);
 
         DataStoreManager.getDatastore().update(account, newBalance);
 
-        int newBalanceFromDB = DataStoreManager.getDatastore().find(Account.class).field("name").equal(accountNo).get().getBalance();
+        Long newBalanceFromDB = DataStoreManager.getDatastore().find(Account.class).field("name").equal(accountNo).get().getBalance();
 
         addToHistory(transfer.getTitle(), transfer.getAmount(), transfer.getSource_account(), account, newBalanceFromDB);
         //TODO: proper response
@@ -113,7 +113,7 @@ public class ExternalTransferResource {
         return authenticationService.authenticate(authString);
     }
 
-    private void addToHistory(String title, int amount, String operation, Account currentAccount, int newBalanceFromDB) {
+    private void addToHistory(String title, Long amount, String operation, Account currentAccount, Long newBalanceFromDB) {
         History history = new History(title, amount, operation, newBalanceFromDB);
 
         DataStoreManager.getDatastore().save(history);

@@ -24,16 +24,16 @@ public class TransferServiceImpl implements TransferService {
 
 
     @WebMethod
-    public void sendExternal(String user, String sourceAccountName, String targetAccountName, int amount, String title, String destinationName) throws Throwable {
+    public void sendExternal(String user, String sourceAccountName, String targetAccountName, Long amount, String title, String destinationName) throws Throwable {
         makeExternalTransfer(sourceAccountName, targetAccountName, amount, title, destinationName);
     }
 
     @WebMethod
-    public void sendInternal(String user, String sourceAccountName, String targetAccountName, int amount, String title) throws Throwable {
+    public void sendInternal(String user, String sourceAccountName, String targetAccountName, Long amount, String title) throws Throwable {
         makeInternalTransfer(user, sourceAccountName, targetAccountName, amount, title);
     }
 
-    private void addToHistory(String title, int amount, String operation, Account currentAccount, int newBalanceFromDB) {
+    private void addToHistory(String title, Long amount, String operation, Account currentAccount, Long newBalanceFromDB) {
         History history = new History(title, amount, operation, newBalanceFromDB);
 
         DataStoreManager.getDatastore().save(history);
@@ -51,7 +51,7 @@ public class TransferServiceImpl implements TransferService {
         return AccountNameProvider.getAccountsNumbersFromCSV();
     }
 
-    private void makeInternalTransfer(String user, String sourceAccountName, String targetAccountName, int amount, String title) throws Exception {
+    private void makeInternalTransfer(String user, String sourceAccountName, String targetAccountName, Long amount, String title) throws Exception {
         User dbUser = DataStoreManager.getDatastore().find(User.class).field("login").equal(user).get();
         Account sourceAccount = DataStoreManager.getDatastore().find(Account.class).field("name").equal(sourceAccountName).get();
         Account targetAccount = DataStoreManager.getDatastore().find(Account.class).field("name").equal(targetAccountName).get();
@@ -59,7 +59,7 @@ public class TransferServiceImpl implements TransferService {
         if (targetAccount == null) throw new Exception();
         if (sourceAccount == null) throw new Exception();
 
-        int sourceBalance = sourceAccount.getBalance();
+        Long sourceBalance = sourceAccount.getBalance();
 
         if (sourceBalance < amount) throw new Exception();
 
@@ -70,14 +70,14 @@ public class TransferServiceImpl implements TransferService {
         DataStoreManager.getDatastore().update(targetAccount, updateTargetBalance);
 
 
-        int newBalanceFromDBSourceAccount = DataStoreManager.getDatastore().find(Account.class).field("name").equal(sourceAccountName).get().getBalance();
-        int newBalanceFromDBTargetAccount = DataStoreManager.getDatastore().find(Account.class).field("name").equal(targetAccountName).get().getBalance();
+        Long newBalanceFromDBSourceAccount = DataStoreManager.getDatastore().find(Account.class).field("name").equal(sourceAccountName).get().getBalance();
+        Long newBalanceFromDBTargetAccount = DataStoreManager.getDatastore().find(Account.class).field("name").equal(targetAccountName).get().getBalance();
 
         addToHistory(title, -amount, targetAccountName, sourceAccount, newBalanceFromDBSourceAccount);
         addToHistory(title, amount, sourceAccountName, targetAccount, newBalanceFromDBTargetAccount);
     }
 
-    private void makeExternalTransfer(String sourceAccountName, String targetAccountName, int amount, String title, String destinationName) throws Throwable {
+    private void makeExternalTransfer(String sourceAccountName, String targetAccountName, Long amount, String title, String destinationName) throws Throwable {
         //00134496,http://192.168.1.152:8030/accounts/17001344960000000000000007/history
 
         if (!AccountNameProvider.validateAccount(targetAccountName)) {
@@ -156,7 +156,7 @@ public class TransferServiceImpl implements TransferService {
             UpdateOperations<Account> updateSourceBalance = DataStoreManager.getDatastore().createUpdateOperations(Account.class).inc("balance", -amount);
             DataStoreManager.getDatastore().update(sourceAccount, updateSourceBalance);
 
-            int newBalanceFromDB = DataStoreManager.getDatastore().find(Account.class).field("name").equal(sourceAccountName).get().getBalance();
+            Long newBalanceFromDB = DataStoreManager.getDatastore().find(Account.class).field("name").equal(sourceAccountName).get().getBalance();
 
             addToHistory(title, -amount, targetAccountName, sourceAccount, newBalanceFromDB);
         } else if (responseCode == 401) {

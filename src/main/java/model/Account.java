@@ -14,7 +14,7 @@ public class Account {
     @Id
     private ObjectId id;
     private String name;
-    private int balance;
+    private Long balance;
 
     @Reference
     private List<History> histories;
@@ -37,11 +37,11 @@ public class Account {
         this.histories = histories;
     }
 
-    public int getBalance() {
+    public Long getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(Long balance) {
         this.balance = balance;
     }
 

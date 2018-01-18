@@ -17,7 +17,7 @@ public class AccountServiceImpl implements AccountService {
 
     //TODO: authorization
     @WebMethod
-    public int getBalance(String user, String accountNo) throws Throwable {
+    public Long getBalance(String user, String accountNo) throws Throwable {
         User currentUser = DataStoreManager.getDatastore().find(User.class).field("login").equal(user).get();
         if(currentUser == null) {
             throw new Exception();
@@ -34,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @WebMethod
-    public void deposit(String user, String accountNo, int amount) throws Throwable {
+    public void deposit(String user, String accountNo, Long amount) throws Throwable {
         //TODO: throw exception
         if (amount <= 0) throw new Exception();
 
@@ -51,13 +51,13 @@ public class AccountServiceImpl implements AccountService {
 
         DataStoreManager.getDatastore().update(account, newBalance);
 
-        int newBalanceFromDB = DataStoreManager.getDatastore().find(Account.class).field("name").equal(accountNo).get().getBalance();
+        Long newBalanceFromDB = DataStoreManager.getDatastore().find(Account.class).field("name").equal(accountNo).get().getBalance();
 
         addToHistory(DEPOSIT.name(), amount, DEPOSIT.name(), account, newBalanceFromDB);
 
     }
 
-    private void addToHistory(String title, int amount, String operation, Account currentAccount, int newBalanceFromDB) {
+    private void addToHistory(String title, Long amount, String operation, Account currentAccount, Long newBalanceFromDB) {
         History history = new History(title, amount, operation, newBalanceFromDB);
 
         DataStoreManager.getDatastore().save(history);
@@ -70,7 +70,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @WebMethod
-    public void withdrawal(String user, String accountNo, int amount) throws Throwable {
+    public void withdrawal(String user, String accountNo, Long amount) throws Throwable {
         //TODO: throw exc
         if (amount <= 0) throw new Exception();
 
@@ -90,7 +90,7 @@ public class AccountServiceImpl implements AccountService {
 
         DataStoreManager.getDatastore().update(account, newBalance);
 
-        int newBalanceFromDB = DataStoreManager.getDatastore().find(Account.class).field("name").equal(accountNo).get().getBalance();
+        Long newBalanceFromDB = DataStoreManager.getDatastore().find(Account.class).field("name").equal(accountNo).get().getBalance();
 
         addToHistory(WITHDRAWAL.name(), amount, WITHDRAWAL.name(), account, newBalanceFromDB);
     }

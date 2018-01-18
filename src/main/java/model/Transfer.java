@@ -2,7 +2,7 @@ package model;
 
 public class Transfer {
     private String source_account;
-    private int amount;
+    private Long amount;
     private String title;
     private String source_name;
     private String destination_name;
@@ -16,11 +16,11 @@ public class Transfer {
         this.source_account = source_account;
     }
 
-    public int getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 

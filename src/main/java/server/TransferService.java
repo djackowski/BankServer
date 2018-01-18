@@ -20,10 +20,10 @@ public interface TransferService {
      * @throws Exception
      */
     @WebMethod
-    void sendExternal(String user, String sourceAccountName, String targetAccountName, int amount, String title, String destinationName) throws Throwable;
+    void sendExternal(String user, String sourceAccountName, String targetAccountName, Long amount, String title, String destinationName) throws Throwable;
 
     @WebMethod
-    void sendInternal(String user, String sourceAccountName, String targetAccountName, int amount, String title) throws Throwable;
+    void sendInternal(String user, String sourceAccountName, String targetAccountName, Long amount, String title) throws Throwable;
 
     @WebMethod
     AccountUrlList getExternalAccountsName();

@@ -13,7 +13,7 @@ public interface AccountService {
      * @return
      */
     @WebMethod
-    int getBalance(String user, String accountNo) throws Throwable;
+    Long getBalance(String user, String accountNo) throws Throwable;
 
     /**
      * @param user
@@ -22,7 +22,7 @@ public interface AccountService {
      * @throws Exception
      */
     @WebMethod
-    void deposit(String user, String accountNo, int amount) throws Throwable;
+    void deposit(String user, String accountNo, Long amount) throws Throwable;
 
     /**
      * @param user
@@ -31,7 +31,7 @@ public interface AccountService {
      * @throws Exception
      */
     @WebMethod
-    void withdrawal(String user, String accountNo, int amount) throws Throwable;
+    void withdrawal(String user, String accountNo, Long amount) throws Throwable;
 
 
     /**

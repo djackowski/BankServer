@@ -21,15 +21,15 @@ public class History {
     @Id
     private ObjectId id;
     private String title;
-    private int amount;
+    private Long amount;
     private String source;
-    private int balanceAfterOperation;
+    private Long balanceAfterOperation;
 
 
     public History() {
     }
 
-    public History(String title, int amount, String source, int balanceAfterOperation) {
+    public History(String title, Long amount, String source, Long balanceAfterOperation) {
         this.title = title;
         this.amount = amount;
         this.source = source;
@@ -44,11 +44,11 @@ public class History {
         this.title = title;
     }
 
-    public int getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 
@@ -60,11 +60,11 @@ public class History {
         this.source = source;
     }
 
-    public int getBalanceAfterOperation() {
+    public Long getBalanceAfterOperation() {
         return balanceAfterOperation;
     }
 
-    public void setBalanceAfterOperation(int balanceAfterOperation) {
+    public void setBalanceAfterOperation(Long balanceAfterOperation) {
         this.balanceAfterOperation = balanceAfterOperation;
     }
 }

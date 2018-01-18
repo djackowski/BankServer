@@ -102,8 +102,8 @@ public class AccountNameProvider {
     }
     //to validate: aaaaaaaabbbbbbbbbbbbbbbb2521cc%97=
 
-    public static boolean isBankIdCorrect(String givenBankId, String targetAccount) throws Exception {
-        if (!targetAccount.contains(givenBankId)) throw new Exception();
+    public static boolean isBankIdCorrect(String givenBankId, String targetAccount) {
+        if (!targetAccount.contains(givenBankId)) return false;
         //TODO: exception create
         return true;
     }
