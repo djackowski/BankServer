@@ -84,7 +84,7 @@ public class TransferServiceImpl implements TransferService {
             throw new AccountNotValidateException();
         }
         Account sourceAccount = DataStoreManager.getDatastore().find(Account.class).field("name").equal(sourceAccountName).get();
-        if(amount > sourceAccount.getBalance()) {
+        if (amount > sourceAccount.getBalance()) {
             throw new NoSufficientMoneyException();
         }
         //TODO: check variety csv accounts
@@ -134,7 +134,8 @@ public class TransferServiceImpl implements TransferService {
 
         String login = properties.get("login").toString();
         String pass = properties.get("password").toString();
-
+//        String login = "admin";
+//        String pass = "ninja";
         String userCredentials = login + ":" + pass;
         String basicAuth = "Basic " + new String(new Base64().encode(userCredentials.getBytes()));
         urlConnection.setRequestProperty("Authorization", basicAuth);
